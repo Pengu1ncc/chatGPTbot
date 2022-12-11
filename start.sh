@@ -136,30 +136,25 @@ Star_qq_bot(){
   cd ./qqbot
   check_qqbot_pid
 if [[ ! -z "${PID_qqbot}" ]]; then
-<<<<<<< HEAD
     kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
     kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhttp >/dev/null 2>1 &
-=======
     kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
     kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhttp -faststart >/dev/null 2>1 &
->>>>>>> ccb265c (修复bug&&优化脚本)
 else
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
-<<<<<<< HEAD
     nohup ./go-cqhttp >/dev/null 2>1 &
 =======
     nohup ./go-cqhttp -faststart >/dev/null 2>1 &
->>>>>>> ccb265c (修复bug&&优化脚本)
 fi
 
 if [[ ! -z "${PID_qqbott}" ]]; then
@@ -171,13 +166,11 @@ fi
 }
 
 Stop_qq_bot(){
-<<<<<<< HEAD
   kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
 =======
   kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
->>>>>>> ccb265c (修复bug&&优化脚本)
   echo -e "停止成功"
   exit 0
 }
@@ -252,11 +245,9 @@ Modify_qq_bot(){
   cd ./apt
   nohup python3.8 ./main.py >/dev/null 2>1 &
   cd ..
-<<<<<<< HEAD
   nohup ./go-cqhttp >/dev/null 2>1 &
 =======
   nohup ./go-cqhttp -faststart >/dev/null 2>1 &
->>>>>>> ccb265c (修复bug&&优化脚本)
   echo "启动成功"
   exit 0
 }
@@ -333,4 +324,3 @@ case "$num" in
     echo -e " ${Error} 请输入正确的数字"
     ;;
 esac
-
