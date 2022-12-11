@@ -28,7 +28,7 @@ def keyword(msg, uid, gid):
     if gid is None:
         send_private_msg(msg,uid)
     if gid:
-        send_group_msg(msg,gid)
+        send_group_msg(msg,uid,gid)
 def send_private_msg(msg,uid):
     res = reply_msg(msg)
     url = "http://127.0.0.1:5700/send_private_msg"
@@ -45,7 +45,7 @@ def send_group_msg(msg,uid,gid):
     url = "http://127.0.0.1:5700/send_group_msg"
     data = {
         "group_id": gid,
-        "message": f"[CQ:at,qq={uid}]{res}"
+        "message": f"[CQ:at,qq={uid}]"+f"{res}"
     }
     try:
         requests.post(url, data=data, timeout=5)
