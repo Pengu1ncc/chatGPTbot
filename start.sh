@@ -78,7 +78,7 @@ else
 fi
 
 echo
-read -e -p " 请输入数字 [1-4]:" qq_bot_choos
+read -e -p " 请输入数字 [1-4]:" wechat_bot_choos
     if [[ ${wechat_bot_choos} == "1" ]]; then
         Install_wechat_bot
     elif [[ ${wechat_bot_choos} == "2" ]]; then
