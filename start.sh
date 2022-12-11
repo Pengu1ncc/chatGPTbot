@@ -14,6 +14,16 @@ check_qqbot_pid() {
 check_wechatbot_pid() {
     PID_wechatbot=$(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
 }
+function get_char()
+{
+  SAVEDSTTY=`stty -g`
+  stty -echo
+  stty cbreak
+  dd if=/dev/tty bs=1 count=1 2> /dev/null
+  stty -raw
+  stty echo
+  stty $SAVEDSTTY
+  }
 
 pause()
 {
@@ -32,6 +42,7 @@ pause()
 }
 
 Qqbot() {
+  clear
   echo -e "
  ${Green_font_prefix}1.${Font_color_suffix} 部署QQGPTBot
  ${Green_font_prefix}2.${Font_color_suffix} 启动QQGPTBot（后台无窗口运行）
@@ -63,7 +74,8 @@ read -e -p " 请输入数字 [1-5]:" qq_bot_choos
 }
 
 Wechatbot() {
-  echo -e "
+  clear
+  echo -e "微信登录需要实名认证，如果扫码登录失败，认证完成以后，重新部署即可
  ${Green_font_prefix}1.${Font_color_suffix} 部署WechatGPTBot
  ${Green_font_prefix}2.${Font_color_suffix} 启动WechatGPTBot（后台无窗口运行）
  ${Green_font_prefix}3.${Font_color_suffix} 停止WechatGPTBot（关闭后台运行）
@@ -110,24 +122,29 @@ Install_qq_bot(){
   sed -i "5s#qqpasswd#${qq_passwd}#g" config.yml
   read -e -p " 请输入openai_api_key：" qq_openai_key
   sed -i "3s#apiKey#${qq_openai_key}#g" ./app/config.json
-  python3.8 ./app/main.py
+  cd ./app
+  python3.8 ./main.py
   clear
   pause
+  cd ..
   chmod +x ./go-cqhttp
   ./go-cqhttp -faststart
-  exit 0
 }
 
 Star_qq_bot(){
   cd ./qqbot
   check_qqbot_pid
 if [[ ! -z "${PID_qqbot}" ]]; then
-    kill -9 $(ps aux | grep 'python3.8 ./app/main.py' | grep -v grep | awk '{print $2}')
+    kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
     kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
-    nohub python3.8 ./app/main.py >/dev/null 2>1 &
+    cd ./qqbot
+    nohub python3.8 /main.py >/dev/null 2>1 &
+    cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 else
+    cd ./qqbot
     nohub python3.8 ./app/main.py >/dev/null 2>1 &
+    cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 fi
   echo -e "启动成功"
@@ -135,12 +152,13 @@ fi
 }
 
 Stop_qq_bot(){
-  kill -9 $(ps aux | grep 'python3.8 ./app/main.py' | grep -v grep | awk '{print $2}')
+  kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
   echo -e "停止成功"
   exit 0
 }
 Modify_qqcoade(){
+cd ./qqbot
 read -r -p "是否修改qq号? [Y/n] " input_one
 
 case $input_one in
@@ -148,6 +166,7 @@ case $input_one in
 		read -e -p " 请输入qq号：" qq_code
     sed -i "4s#qqcode#${qq_code}#g" config.yml
     sed -i "2s#qqcode#${qq_code}#g" ./app/config.json
+    rm -f session.token
     echo "修改成功"
 		;;
 
@@ -218,6 +237,7 @@ Install_wechat_bot(){
   apt install coreutils -y
   apt install golang -y
   cd wechatbot
+  rm -f storage.json
   go env -w GO111MODULE=on
   go env -w GOPROXY=https://goproxy.io,direct
   read -e -p " 请输入openai_api_key：" wechat_openai_key
@@ -225,24 +245,23 @@ Install_wechat_bot(){
   clear
   pause
   go run main.go
-  exit 0
 }
 
 Star_wechat_bot(){
   cd wechatbot
   check_wechatbot_pid
 if [[ ! -z "${PID_wechatbot}" ]]; then
-    kill -9 $(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
-    nohup run ./main.go >/dev/null 2>1 &
+    kill -9 $(ps -ef | grep 'go run ./main.go' | grep -v grep | awk '{print $2}')
+    nohup go run ./main.go >/dev/null 2>1 &
 else
-    nohup run ./main.go >/dev/null 2>1 &
+    nohup go run ./main.go >/dev/null 2>1 &
 fi
   echo -e "启动成功"
   exit 0
 }
 
 Stop_wechat_bot(){
-  kill -9 $(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
+  kill -9 $(ps -ef | grep ' go run ./main.go' | grep -v grep | awk '{print $2}')
   echo -e "停止成功"
   exit 0
 }
@@ -252,7 +271,7 @@ Modify_wechat_bot(){
   read -e -p " 请输入openai_api_key：" wechat_openai_key
   sed -i "2s#apiKey#${wechat_openai_key}#g" ./config.json
   echo -e "修改成功"
-  nohup run ./main.go >/dev/null 2>1 &
+  nohup go run ./main.go >/dev/null 2>1 &
   echo "启动成功"
   exit 0
 }
