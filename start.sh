@@ -123,7 +123,7 @@ Install_qq_bot(){
   read -e -p " 请输入openai_api_key：" qq_openai_key
   sed -i "3s#apiKey#${qq_openai_key}#g" ./app/config.json
   cd ./app
-  python3.8 ./main.py
+  nohub python3.8 ./main.py >/dev/null 2>1 &
   clear
   pause
   cd ..
@@ -138,12 +138,12 @@ if [[ ! -z "${PID_qqbot}" ]]; then
     kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
     kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
     cd ./qqbot
-    nohub python3.8 /main.py >/dev/null 2>1 &
+    nohub python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 else
     cd ./qqbot
-    nohub python3.8 ./app/main.py >/dev/null 2>1 &
+    nohub python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 fi
@@ -225,7 +225,9 @@ Modify_qq_bot(){
   Modify_qqcoade
   Modify_qqpasswd
   Modify_qq_openai_api_key
-  nohub python3.8 ./app/main.py >/dev/null 2>1 &
+  cd ./apt
+  nohub python3.8 ./main.py >/dev/null 2>1 &
+  cd ..
   nohup ./go-cqhhtp >/dev/null 2>1 &
   echo "启动成功"
   exit 0
