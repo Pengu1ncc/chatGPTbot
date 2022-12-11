@@ -259,7 +259,7 @@ case "$num" in
     Qqbot
     ;;
 2)
-    Qwechatbot
+    Wechatbot
     ;;
 *)
     echo
