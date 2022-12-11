@@ -138,17 +138,22 @@ Star_qq_bot(){
 if [[ ! -z "${PID_qqbot}" ]]; then
     kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
     kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
-    cd ./qqbot
+    cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 else
-    cd ./qqbot
+    cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 fi
-  echo -e "启动成功"
+
+if [[ ! -z "${PID_qqbott}" ]]; then
+    echo -e "${Green_font_prefix}启动成功${Font_color_suffix}"
+else
+    echo -e " ${Red_font_prefix}启动失败${Font_color_suffix}"
+fi
   exit 0
 }
 
@@ -259,7 +264,11 @@ if [[ ! -z "${PID_wechatbot}" ]]; then
 else
     nohup go run ./main.go >/dev/null 2>1 &
 fi
-  echo -e "启动成功"
+if [[ ! -z "${PID_wechatbot}" ]]; then
+    echo -e "${Green_font_prefix}启动成功${Font_color_suffix}"
+else
+    echo -e " ${Red_font_prefix}启动失败${Font_color_suffix}"
+fi
   exit 0
 }
 
