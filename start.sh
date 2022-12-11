@@ -114,6 +114,7 @@ Install_qq_bot(){
   python3.8 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
   python3.8  -m pip install Flask==2.2.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
   python3.8  -m pip install openai==0.25.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
+  python3.8  -m pip install requests -i https://pypi.tuna.tsinghua.edu.cn/simple
   cd ./qqbot
   read -e -p " 请输入qq号：" qq_code
   sed -i "4s#qqcode#${qq_code}#g" config.yml
@@ -123,7 +124,7 @@ Install_qq_bot(){
   read -e -p " 请输入openai_api_key：" qq_openai_key
   sed -i "3s#apiKey#${qq_openai_key}#g" ./app/config.json
   cd ./app
-  nohub python3.8 ./main.py >/dev/null 2>1 &
+  nohup python3.8 ./main.py >/dev/null 2>1 &
   clear
   pause
   cd ..
@@ -138,12 +139,12 @@ if [[ ! -z "${PID_qqbot}" ]]; then
     kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
     kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
     cd ./qqbot
-    nohub python3.8 ./main.py >/dev/null 2>1 &
+    nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 else
     cd ./qqbot
-    nohub python3.8 ./main.py >/dev/null 2>1 &
+    nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhhtp >/dev/null 2>1 &
 fi
@@ -226,7 +227,7 @@ Modify_qq_bot(){
   Modify_qqpasswd
   Modify_qq_openai_api_key
   cd ./apt
-  nohub python3.8 ./main.py >/dev/null 2>1 &
+  nohup python3.8 ./main.py >/dev/null 2>1 &
   cd ..
   nohup ./go-cqhhtp >/dev/null 2>1 &
   echo "启动成功"
