@@ -1,6 +1,9 @@
 from flask import Flask, request
-
+import json
 from api import keyword
+with open('config.json', 'r') as jsonfile:
+  json_string = json.load(jsonfile)
+  qq_code = json_string['qq_code']
 
 app = Flask(__name__)
 
@@ -12,7 +15,7 @@ def post_data():
     msg = data.get('raw_message')
     if data.get('message_type') == 'private':
         keyword(msg, uid, gid=None)
-    elif data.get('message_type') == 'group':
+    elif data.get('message_type') == 'group'and f"[CQ:at,qq={qq_code}]" in data.get('raw_message'):
         gid = data.get('group_id')
         keyword(msg, uid, gid)
     return 'OK'

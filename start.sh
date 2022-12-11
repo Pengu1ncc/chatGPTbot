@@ -105,10 +105,11 @@ Install_qq_bot(){
   cd ./qqbot
   read -e -p " 请输入qq号：" qq_code
   sed -i "4s#qqcode#${qq_code}#g" config.yml
+  sed -i "2s#qqcode#${qq_code}#g" ./app/config.json
   read -e -p " 请输入qq密码：" qq_passwd
   sed -i "5s#qqpasswd#${qq_passwd}#g" config.yml
   read -e -p " 请输入openai_api_key：" qq_openai_key
-  sed -i "5s#apiKey#${qq_openai_key}#g" ./app/config.json
+  sed -i "3s#apiKey#${qq_openai_key}#g" ./app/config.json
   python3.8 ./app/main.py
   clear
   pause
@@ -138,6 +139,7 @@ case $input_one in
     [yY][eE][sS]|[yY])
 		read -e -p " 请输入qq号：" qq_code
     sed -i "4s#qqcode#${qq_code}#g" config.yml
+    sed -i "2s#qqcode#${qq_code}#g" ./app/config.json
     echo "修改成功"
 		;;
 
@@ -171,13 +173,13 @@ case $input_two in
 		;;
 esac
 }
-Modify_openai_api_key(){
+Modify_qq_openai_api_key(){
   read -r -p "是否修改openai_api_key? [Y/n] " input_three
 
 case $input_three in
     [yY][eE][sS]|[yY])
     read -e -p " 请输入openai_api_key：" qq_openai_key
-    sed -i "5s#apiKey#${qq_openai_key}#g" ./app/config.json
+    sed -i "3s#apiKey#${qq_openai_key}#g" ./app/config.json
     echo "修改成功"
 		;;
 
@@ -195,6 +197,7 @@ Modify_qq_bot(){
   cd ./qqbot
   Modify_qqcoade
   Modify_qqpasswd
+  Modify_qq_openai_api_key
   nohub python3.8 ./app/main.py >/dev/null 2>1 &
   nohup ./go-cqhhtp >/dev/null 2>1 &
   echo "启动成功"
