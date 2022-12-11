@@ -45,7 +45,7 @@ def send_group_msg(msg,uid,gid):
     url = "http://127.0.0.1:5700/send_group_msg"
     data = {
         "group_id": gid,
-        "message": f"[CQ:at,qq={uid}]"+f"{res}"
+        "message": f"[CQ:at,qq={uid}]{res}"
     }
     try:
         requests.post(url, data=data, timeout=5)
