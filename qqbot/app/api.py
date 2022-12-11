@@ -40,12 +40,12 @@ def send_private_msg(msg,uid):
         requests.post(url, data=data, timeout=5)
     except:
         pass
-def send_group_msg(msg,gid):
+def send_group_msg(msg,uid,gid):
     res = reply_msg(msg)
     url = "http://127.0.0.1:5700/send_group_msg"
     data = {
         "group_id": gid,
-        "message": f"{res}"
+        "message": f"[CQ:at,qq={uid}]{res}"
     }
     try:
         requests.post(url, data=data, timeout=5)

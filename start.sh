@@ -34,8 +34,8 @@ pause()
 Qqbot() {
   echo -e "
  ${Green_font_prefix}1.${Font_color_suffix} 部署QQGPTBot
- ${Green_font_prefix}2.${Font_color_suffix} 启动QQGPTBot
- ${Green_font_prefix}3.${Font_color_suffix} 停止QQGPTBot
+ ${Green_font_prefix}2.${Font_color_suffix} 启动QQGPTBot（后台无窗口运行）
+ ${Green_font_prefix}3.${Font_color_suffix} 停止QQGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
  ———————————————————————" && echo
 check_qqbot_pid
@@ -65,8 +65,8 @@ read -e -p " 请输入数字 [0-5]:" qq_bot_choos
 Wechatbot() {
   echo -e "
  ${Green_font_prefix}1.${Font_color_suffix} 部署WechatGPTBot
- ${Green_font_prefix}2.${Font_color_suffix} 启动WechatGPTBot
- ${Green_font_prefix}3.${Font_color_suffix} 停止WechatGPTBot
+ ${Green_font_prefix}2.${Font_color_suffix} 启动WechatGPTBot（后台无窗口运行）
+ ${Green_font_prefix}3.${Font_color_suffix} 停止WechatGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
  ———————————————————————" && echo
 check_pid
@@ -241,8 +241,10 @@ Modify_wechat_bot(){
 }
 
 
-echo && echo -e " ChatGPTBot 一键部署脚本（按住ctrl+c退出）
-
+echo && echo -e " ChatGPTBot 一键部署脚本
+1.选择你要部署的bot类型
+2.进入选择后未部署bot的选择第一个选项进行bot部署，部署完成后关闭窗口
+3.部署完成后，重新启动脚本，选择你要启动的bot服务，即可后台无窗口运行
 
  ${Green_font_prefix}1.${Font_color_suffix} QQGPTBot
  ${Green_font_prefix}2.${Font_color_suffix} WeichatGPTBot
