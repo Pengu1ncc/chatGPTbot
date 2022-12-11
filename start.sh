@@ -69,7 +69,7 @@ Wechatbot() {
  ${Green_font_prefix}3.${Font_color_suffix} 停止WechatGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
  ———————————————————————" && echo
-check_qqbot_pid
+check_wechatbot_pid
 
 if [[ ! -z "${PID_wechatbot}" ]]; then
     echo -e " WechatGPTBot 状态: ${Green_font_prefix}已启动${Font_color_suffix}"
