@@ -37,7 +37,7 @@ Qqbot() {
  ${Green_font_prefix}2.${Font_color_suffix} 启动QQGPTBot（后台无窗口运行）
  ${Green_font_prefix}3.${Font_color_suffix} 停止QQGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
- ———————————————————————" && echo
+ ———————————————————————————————"
 check_qqbot_pid
 if [[ ! -z "${PID_qqbot}" ]]; then
     echo -e " QQGPTBot 状态: ${Green_font_prefix}已启动${Font_color_suffix}"
@@ -68,7 +68,7 @@ Wechatbot() {
  ${Green_font_prefix}2.${Font_color_suffix} 启动WechatGPTBot（后台无窗口运行）
  ${Green_font_prefix}3.${Font_color_suffix} 停止WechatGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
- ———————————————————————" && echo
+ ———————————————————————————————"
 check_wechatbot_pid
 
 if [[ ! -z "${PID_wechatbot}" ]]; then
@@ -120,8 +120,16 @@ Install_qq_bot(){
 
 Star_qq_bot(){
   cd ./qqbot
-  nohub python3.8 ./app/main.py >/dev/null 2>1 &
-  nohup ./go-cqhhtp >/dev/null 2>1 &
+  check_qqbot_pid
+if [[ ! -z "${PID_qqbot}" ]]; then
+    kill -9 $(ps aux | grep 'python3.8 ./app/main.py' | grep -v grep | awk '{print $2}')
+    kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
+    nohub python3.8 ./app/main.py >/dev/null 2>1 &
+    nohup ./go-cqhhtp >/dev/null 2>1 &
+else
+    nohub python3.8 ./app/main.py >/dev/null 2>1 &
+    nohup ./go-cqhhtp >/dev/null 2>1 &
+fi
   echo -e "启动成功"
   exit 0
 }
@@ -222,7 +230,13 @@ Install_wechat_bot(){
 
 Star_wechat_bot(){
   cd wechatbot
-  nohup run ./main.go >/dev/null 2>1 &
+  check_wechatbot_pid
+if [[ ! -z "${PID_wechatbot}" ]]; then
+    kill -9 $(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
+    nohup run ./main.go >/dev/null 2>1 &
+else
+    nohup run ./main.go >/dev/null 2>1 &
+fi
   echo -e "启动成功"
   exit 0
 }
