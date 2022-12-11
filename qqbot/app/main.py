@@ -12,7 +12,10 @@ app = Flask(__name__)
 def post_data():
     data = request.get_json()
     uid = data.get('user_id')
-    msg = data.get('raw_message').replace(f"[CQ:at,qq={qq_code}]",'')
+    try:
+        msg = data.get('raw_message').replace(f"[CQ:at,qq={qq_code}]",'')
+    except:
+        pass
     if data.get('message_type') == 'private':
         keyword(msg, uid, gid=None)
     elif data.get('message_type') == 'group'and f"[CQ:at,qq={qq_code}]" in data.get('raw_message'):
