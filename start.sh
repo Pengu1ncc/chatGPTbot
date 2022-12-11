@@ -216,7 +216,7 @@ Install_wechat_bot(){
   check_root
   apt update -y
   apt install coreutils -y
-  apt install go -y
+  apt install golang -y
   cd wechatbot
   go env -w GO111MODULE=on
   go env -w GOPROXY=https://goproxy.io,direct
