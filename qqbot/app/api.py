@@ -20,7 +20,10 @@ def reply_msg(msg):
     )
 
     if completion.choices[0].text[0:1]=='\n':
-        return completion.choices[0].text.strip()
+        try:
+            return completion.choices[0].text.strip()
+        except:
+            pass
     else:
         return completion.choices[0].text
 
