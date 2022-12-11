@@ -20,7 +20,7 @@ def reply_msg(msg):
     )
 
     if completion.choices[0].text[0:1]=='\n':
-        return completion.choices[0].text[2:]
+        return completion.choices[0].text.strip()
     else:
         return completion.choices[0].text
 
@@ -45,7 +45,7 @@ def send_group_msg(msg,uid,gid):
     url = "http://127.0.0.1:5700/send_group_msg"
     data = {
         "group_id": gid,
-        "message": f"[CQ:at,qq={uid}]{res}"
+        "message": f"[CQ:at,qq={uid}]"+f"{res}"
     }
     try:
         requests.post(url, data=data, timeout=5)
