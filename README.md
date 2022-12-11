@@ -13,3 +13,4 @@ git clone https://github.com/Pengu1ncc/chatGPTbot.git
 # 启动项目
 cd chatGPTbot && chmod +x start.sh && ./start.sh
 ```
+

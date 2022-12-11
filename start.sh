@@ -8,13 +8,13 @@ check_root() {
     [[ $EUID != 0 ]] && echo -e "${Error} 当前非ROOT账号(或没有ROOT权限)，无法继续操作，请更换ROOT账号或使用 ${Green_background_prefix}sudo su${Font_color_suffix} 命令获取临时ROOT权限（执行后可能会提示输入当前账号的密码）。" && exit 1
 }
 check_qqbot_pid() {
-    PID_qqbot=$(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
+    PID_qqbot=$(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
 }
 
 check_wechatbot_pid() {
     PID_wechatbot=$(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
 }
-function get_char()
+get_char()
 {
   SAVEDSTTY=`stty -g`
   stty -echo
@@ -137,16 +137,16 @@ Star_qq_bot(){
   check_qqbot_pid
 if [[ ! -z "${PID_qqbot}" ]]; then
     kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
-    kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
+    kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
-    nohup ./go-cqhhtp >/dev/null 2>1 &
+    nohup ./go-cqhttp >/dev/null 2>1 &
 else
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
-    nohup ./go-cqhhtp >/dev/null 2>1 &
+    nohup ./go-cqhttp >/dev/null 2>1 &
 fi
 
 if [[ ! -z "${PID_qqbott}" ]]; then
@@ -159,7 +159,7 @@ fi
 
 Stop_qq_bot(){
   kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
-  kill -9 $(ps aux | grep './go-cqhhtp' | grep -v grep | awk '{print $2}')
+  kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
   echo -e "停止成功"
   exit 0
 }
@@ -234,7 +234,7 @@ Modify_qq_bot(){
   cd ./apt
   nohup python3.8 ./main.py >/dev/null 2>1 &
   cd ..
-  nohup ./go-cqhhtp >/dev/null 2>1 &
+  nohup ./go-cqhttp >/dev/null 2>1 &
   echo "启动成功"
   exit 0
 }
