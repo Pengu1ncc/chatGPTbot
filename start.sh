@@ -153,7 +153,6 @@ else
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
     nohup ./go-cqhttp >/dev/null 2>1 &
-=======
     nohup ./go-cqhttp -faststart >/dev/null 2>1 &
 fi
 
@@ -168,7 +167,6 @@ fi
 Stop_qq_bot(){
   kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
-=======
   kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
   echo -e "停止成功"
@@ -246,7 +244,6 @@ Modify_qq_bot(){
   nohup python3.8 ./main.py >/dev/null 2>1 &
   cd ..
   nohup ./go-cqhttp >/dev/null 2>1 &
-=======
   nohup ./go-cqhttp -faststart >/dev/null 2>1 &
   echo "启动成功"
   exit 0
