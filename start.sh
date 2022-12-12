@@ -14,32 +14,6 @@ check_qqbot_pid() {
 check_wechatbot_pid() {
     PID_wechatbot=$(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
 }
-get_char()
-{
-  SAVEDSTTY=`stty -g`
-  stty -echo
-  stty cbreak
-  dd if=/dev/tty bs=1 count=1 2> /dev/null
-  stty -raw
-  stty echo
-  stty $SAVEDSTTY
-  }
-
-pause()
-{
-  # 启用功能的开关 1开启|其它不开启
-  enable_pause=1
-
-  # 判断第一个参数是否为空，约定俗成的写法
-  if [ "x$1" != "x" ]; then
-    echo $1
-  fi
-  if [ $enable_pause -eq 1 ]; then
-
-    echo "提示运行成功后，按住ctrl+c退出，然后重新进入脚本启动服务即可（按任意键继续）"
-    char=`get_char`
-  fi
-}
 
 Qqbot() {
   clear
@@ -126,7 +100,7 @@ Install_qq_bot(){
   cd ./app
   nohup python3.8 ./main.py >/dev/null 2>1 &
   clear
-  pause
+  read -p "提示运行成功后，按住ctrl+c退出，然后重新进入脚本启动服务即可（按任意键继续）"
   cd ..
   chmod +x ./go-cqhttp
   ./go-cqhttp -faststart
@@ -261,7 +235,7 @@ Install_wechat_bot(){
   read -e -p " 请输入openai_api_key：" wechat_openai_key
   sed -i "2s#apiKey#${wechat_openai_key}#g" ./config.json
   clear
-  pause
+  read -p "提示运行成功后，按住ctrl+c退出，然后重新进入脚本启动服务即可（按任意键继续）"
   go run main.go
 }
 
