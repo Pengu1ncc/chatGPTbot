@@ -115,12 +115,6 @@ if [[ ! -z "${PID_qqbot}" ]]; then
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
-    nohup ./go-cqhttp >/dev/null 2>1 &
-    kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
-    kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
-    cd ./app
-    nohup python3.8 ./main.py >/dev/null 2>1 &
-    cd ..
     nohup ./go-cqhttp -faststart >/dev/null 2>1 &
 else
     cd ./app
@@ -146,9 +140,14 @@ fi
 Stop_qq_bot(){
   kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
-  kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
-  kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
-  echo -e "停止成功"
+  check_qqbot_pid
+if [[ ! -z "${PID_qqbott}" ]]; then
+    echo -e "${Red_font_prefix}停止失败，请手动杀死进程${Font_color_suffix}"
+else
+    echo -e " ${Green_font_prefix}停止成功${Font_color_suffix}
+    "
+fi
+  exit 0
   exit 0
 }
 Modify_qqcoade(){
@@ -264,7 +263,13 @@ fi
 
 Stop_wechat_bot(){
   kill 9 $(ps -ef | grep ' go run ./main.go' | grep -v grep | awk '{print $2}')
-  echo -e "停止成功"
+    check_wechatbot_pid
+if [[ ! -z "${PID_wechatbot}" ]]; then
+    echo -e "${Red_font_prefix}停止失败，请手动关闭进程${Font_color_suffix}"
+else
+    echo -e "${Green_font_prefix}停止成功${Font_color_suffix}"
+  fi
+
   exit 0
 }
 
