@@ -15,6 +15,46 @@ check_wechatbot_pid() {
     PID_wechatbot=$(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
 }
 
+check_sys() {
+    if [[ -f /etc/redhat-release ]]; then
+        release="centos"
+    elif cat /etc/issue | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
+    elif cat /proc/version | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /proc/version | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
+    fi
+} 
+
+Installation_qq_dependency() {
+    if [[ ${release} = "centos" ]]; then
+  	yum -y update
+  	yum install -y coreutils
+  	yum install -y python3.8
+    else
+  	apt -y update
+  	apt install -y coreutils
+  	apt install -y python3.8
+    fi
+}
+Installation_weixin_dependency() {
+    if [[ ${release} = "centos" ]]; then
+	yum update -y
+ 	yum install coreutils -y
+  	yum install golang -y
+    else
+	apt update -y
+ 	apt install coreutils -y
+  	apt install golang -y
+    fi
+}
 Qqbot() {
   clear
   echo -e "
@@ -81,10 +121,9 @@ read -e -p " 请输入数字 [1-4]:" wechat_bot_choos
 }
 
 Install_qq_bot(){
-  check_root
-  apt -y update
-  apt install -y coreutils
-  apt install -y python3.8
+  check_root 
+  check_sys
+  Installation_qq_dependency
   python3.8 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
   python3.8  -m pip install Flask==2.2.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
   python3.8  -m pip install openai==0.25.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -228,9 +267,8 @@ Modify_qq_bot(){
 
 Install_wechat_bot(){
   check_root
-  apt update -y
-  apt install coreutils -y
-  apt install golang -y
+  check_sys
+  Installation_weixin_dependency
   cd wechatbot
   rm -f storage.json
   go env -w GO111MODULE=on
