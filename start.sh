@@ -148,7 +148,6 @@ else
     "
 fi
   exit 0
-  exit 0
 }
 Modify_qqcoade(){
 cd ./qqbot
