@@ -110,8 +110,8 @@ Star_qq_bot(){
   cd ./qqbot
   check_qqbot_pid
 if [[ ! -z "${PID_qqbot}" ]]; then
-    kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
-    kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
+    kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
+    kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
     cd ./app
     nohup python3.8 ./main.py >/dev/null 2>1 &
     cd ..
@@ -129,18 +129,23 @@ else
     nohup ./go-cqhttp >/dev/null 2>1 &
     nohup ./go-cqhttp -faststart >/dev/null 2>1 &
 fi
-
+  check_qqbot_pid
 if [[ ! -z "${PID_qqbott}" ]]; then
     echo -e "${Green_font_prefix}启动成功${Font_color_suffix}"
 else
-    echo -e " ${Red_font_prefix}启动失败${Font_color_suffix}"
+    echo -e " ${Red_font_prefix}启动失败，请输入ps aux检查进程go-cqhttp与python3.8 ./main.py是否启动，如果其中一个进程没有启动，请手动调试进程。${Font_color_suffix}
+    	      ${Font_color_suffix}手动调试命令：
+    	      ${Red_font_prefix}1.${Font_color_suffix} cd ./qqbot && ./go-cqhttp
+ 	      ${Red_font_prefix}2.${Font_color_suffix} cd ./qqbot/app && python3.8 ./main.py
+	      ${Font_color_suffix}成功启动后可以退出窗口，重新进入脚本使用后台运行即可。
+    "
 fi
   exit 0
 }
 
 Stop_qq_bot(){
-  kill -9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
-  kill -9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
+  kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
+  kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
   kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
   echo -e "停止成功"
@@ -248,10 +253,11 @@ if [[ ! -z "${PID_wechatbot}" ]]; then
 else
     nohup go run ./main.go >/dev/null 2>1 &
 fi
+  check_wechatbot_pid
 if [[ ! -z "${PID_wechatbot}" ]]; then
     echo -e "${Green_font_prefix}启动成功${Font_color_suffix}"
 else
-    echo -e " ${Red_font_prefix}启动失败${Font_color_suffix}"
+        echo -e " ${Red_font_prefix}启动失败，请输入ps aux检查进程go run ./main.go是否启动，如果进程没有启动请输入cd ./wechatbot && go run ./main.go手动调试进程，调试成功后关闭窗口，重新启动脚本后台运行即可。${Font_color_suffix}"
 fi
   exit 0
 }
