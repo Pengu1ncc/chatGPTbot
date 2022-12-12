@@ -285,6 +285,7 @@ Star_wechat_bot(){
   check_wechatbot_pid
 if [[ ! -z "${PID_wechatbot}" ]]; then
     kill 9 $(ps -ef | grep 'go run ./main.go' | grep -v grep | awk '{print $2}')
+    kill 9 $(ps aux | grep 'exe/main' | grep -v grep | awk '{print $2}')
     nohup go run ./main.go >/dev/null 2>1 &
 else
     nohup go run ./main.go >/dev/null 2>1 &
@@ -299,7 +300,8 @@ fi
 }
 
 Stop_wechat_bot(){
-  kill 9 $(ps -ef | grep ' go run ./main.go' | grep -v grep | awk '{print $2}')
+  kill 9 $(ps -ef | grep 'go run ./main.go' | grep -v grep | awk '{print $2}')
+  kill 9 $(ps aux | grep 'exe/main' | grep -v grep | awk '{print $2}')
     check_wechatbot_pid
 if [[ ! -z "${PID_wechatbot}" ]]; then
     echo -e "${Red_font_prefix}停止失败，请手动关闭进程${Font_color_suffix}"
