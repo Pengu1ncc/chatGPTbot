@@ -12,7 +12,7 @@ check_qqbot_pid() {
 }
 
 check_wechatbot_pid() {
-    PID_wechatbot=$(ps -ef | grep 'run go ./main.go' | grep -v grep | awk '{print $2}')
+    PID_wechatbot=$(ps -ef | grep 'go run ./main.go' | grep -v grep | awk '{print $2}')
 }
 
 check_sys() {
