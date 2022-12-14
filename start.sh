@@ -16,6 +16,7 @@ check_wechatbot_pid() {
 }
 
 exit_bot(){
+    clear
     exit 0
 }
 
