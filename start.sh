@@ -163,7 +163,7 @@ else
     nohup ./go-cqhttp -faststart >/dev/null 2>1 &
 fi
   check_qqbot_pid
-if [[ ! -z "${PID_qqbott}" ]]; then
+if [[ ! -z "${PID_qqbot}" ]]; then
     echo -e "${Green_font_prefix}启动成功${Font_color_suffix}"
 else
     echo -e " ${Red_font_prefix}启动失败，请输入ps aux检查进程go-cqhttp与python3.8 ./main.py是否启动，如果其中一个进程没有启动，请手动调试进程。${Font_color_suffix}
