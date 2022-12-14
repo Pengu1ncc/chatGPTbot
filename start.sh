@@ -180,7 +180,7 @@ Stop_qq_bot(){
   kill 9 $(ps aux | grep 'python3.8 ./main.py' | grep -v grep | awk '{print $2}')
   kill 9 $(ps aux | grep './go-cqhttp' | grep -v grep | awk '{print $2}')
   check_qqbot_pid
-if [[ ! -z "${PID_qqbott}" ]]; then
+if [[ ! -z "${PID_qqbot}" ]]; then
     echo -e "${Red_font_prefix}停止失败，请手动杀死进程${Font_color_suffix}"
 else
     echo -e " ${Green_font_prefix}停止成功${Font_color_suffix}
