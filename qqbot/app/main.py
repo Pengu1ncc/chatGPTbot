@@ -12,11 +12,11 @@ app = Flask(__name__)
 def post_data():
     data = request.get_json()
     uid = data.get('user_id')
-    if f"[CQ:at,qq={qq_code}]" in data.get('raw_message'):
-        try:
+    if f"[CQ:at,qq={qq_code}]" is not None:
+        if f"[CQ:at,qq={qq_code}]" in data.get('raw_message'):
             msg = data.get('raw_message').replace(f"[CQ:at,qq={qq_code}]","")
-        except:
-            pass
+        else:
+            msg = data.get('raw_message')
     else:
         msg = data.get('raw_message')
     if data.get('message_type') == 'private':
