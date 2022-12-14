@@ -15,6 +15,10 @@ check_wechatbot_pid() {
     PID_wechatbot=$(ps -ef | grep 'go run ./main.go' | grep -v grep | awk '{print $2}')
 }
 
+exit_bot(){
+    exit 0
+}
+
 check_sys() {
     if [[ -f /etc/redhat-release ]]; then
         release="centos"
@@ -62,6 +66,7 @@ Qqbot() {
  ${Green_font_prefix}2.${Font_color_suffix} 启动QQGPTBot（后台无窗口运行）
  ${Green_font_prefix}3.${Font_color_suffix} 停止QQGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
+ ${Green_font_prefix}5.${Font_color_suffix} 退出脚本
  ———————————————————————————————"
 check_qqbot_pid
 if [[ ! -z "${PID_qqbot}" ]]; then
@@ -80,6 +85,8 @@ read -e -p " 请输入数字 [1-5]:" qq_bot_choos
         Stop_qq_bot
     elif [[ ${qq_bot_choos} == "4" ]]; then
         Modify_qq_bot
+    elif [[ ${qq_bot_choos} == "5" ]]; then
+        exit_bot
     else
         echo
         echo -e " ${Error} 请输入正确的数字"
@@ -94,6 +101,7 @@ Wechatbot() {
  ${Green_font_prefix}2.${Font_color_suffix} 启动WechatGPTBot（后台无窗口运行）
  ${Green_font_prefix}3.${Font_color_suffix} 停止WechatGPTBot（关闭后台运行）
  ${Green_font_prefix}4.${Font_color_suffix} 修改配置信息
+ ${Green_font_prefix}5.${Font_color_suffix} 退出脚本
  ———————————————————————————————"
 check_wechatbot_pid
 
@@ -104,7 +112,7 @@ else
 fi
 
 echo
-read -e -p " 请输入数字 [1-4]:" wechat_bot_choos
+read -e -p " 请输入数字 [1-5]:" wechat_bot_choos
     if [[ ${wechat_bot_choos} == "1" ]]; then
         Install_wechat_bot
     elif [[ ${wechat_bot_choos} == "2" ]]; then
@@ -113,6 +121,8 @@ read -e -p " 请输入数字 [1-4]:" wechat_bot_choos
         Stop_wechat_bot
     elif [[ ${wechat_bot_choos} == "4" ]]; then
         Modify_wechat_bot
+    elif [[ ${wechat_bot_choos} == "5" ]]; then
+        exit_bot
     else
         echo
         echo -e " ${Error} 请输入正确的数字"
